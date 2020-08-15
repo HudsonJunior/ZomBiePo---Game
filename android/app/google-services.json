@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "751673990330",
+    "firebase_url": "https://zom-bie-po.firebaseio.com",
+    "project_id": "zom-bie-po",
+    "storage_bucket": "zom-bie-po.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751673990330:android:d0de46fbf2102e2285f683",
+        "android_client_info": {
+          "package_name": "com.example.jokenpo_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "751673990330-fa706g7jjffgq30hgqqra2kdc469ibq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdrqYJ7RuoJ5Mx8E2lMdZBYEdve6Wozug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "751673990330-fa706g7jjffgq30hgqqra2kdc469ibq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id":
+    }
+  ],
+  "configuration_version": "1"
+}
