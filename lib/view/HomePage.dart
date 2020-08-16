@@ -30,9 +30,7 @@ class _HomePageState extends State<HomePage> {
                 key: _formKey,
                 child: TextFormField(
                   validator: (value) {
-                    return value.length == 0
-                        ? "Digite um nome válido!"
-                        : null;
+                    return value.length == 0 ? "Digite um nome válido!" : null;
                   },
                   maxLength: 12,
                   textAlign: TextAlign.center,
@@ -53,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GamePage(nome),
+                        builder: (context) => GamePage(nome.toUpperCase()),
                       ));
                 }
               },
