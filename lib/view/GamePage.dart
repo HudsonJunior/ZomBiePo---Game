@@ -13,12 +13,16 @@ import 'package:flutter/material.dart';
 
 import 'ad_manager.dart';
 
-class HomePage extends StatefulWidget {
+class GamePage extends StatefulWidget {
+  final String namePlayer;
+
+  GamePage(this.namePlayer);
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _GamePageState createState() => _GamePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GamePageState extends State<GamePage> {
   final _pedra = "assets/images/pedra.png";
   final _papel = 'assets/images/papel.png';
   final _tesoura = 'assets/images/tesoura.png';
@@ -26,6 +30,19 @@ class _HomePageState extends State<HomePage> {
   final _pedraZombie = "assets/images/pedraZombie.png";
   final _papelZombie = "assets/images/papelZombie.png";
   final _tesouraZombie = "assets/images/tesouraZombie.png";
+
+  var playerJogada = 0;
+  var zombieJogada = 0;
+
+  Random random = new Random(10);
+
+  var imagePlayer = 'assets/images/imagePlayer.png';
+  var imageBot = 'assets/images/imageZombie.png';
+
+  BannerAd _bannerAd;
+
+  var scorePlayer = 0;
+  var scoreBot = 0;
 
   FToast fToast;
 
@@ -51,18 +68,6 @@ class _HomePageState extends State<HomePage> {
 
     super.dispose();
   }
-
-  Random random = new Random(10);
-
-  var _opacity = 0;
-
-  var imagePlayer = 'assets/images/imagePlayer.png';
-  var imageBot = 'assets/images/imageZombie.png';
-
-  BannerAd _bannerAd;
-
-  var scorePlayer = 0;
-  var scoreBot = 0;
 
   static Soundpool pool = Soundpool(streamType: StreamType.notification);
 
@@ -91,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                       Container(
                           margin: EdgeInsets.only(left: 40, top: 50),
                           child: Text(
-                            'VOCÊ',
+                            widget.namePlayer,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -126,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       Container(
                           margin: EdgeInsets.only(right: 40, top: 50),
                           child: Text(
-                            'ZUMBIS',
+                            'Zumbis',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -224,6 +229,14 @@ class _HomePageState extends State<HomePage> {
 
   _jogar(String jogada) {
     setState(() {
+      if (jogada == _papel) {
+        playerJogada = 2;
+      } else if (jogada == _pedra) {
+        playerJogada = 1;
+      } else {
+        playerJogada = 3;
+      }
+
       imagePlayer = jogada;
       imageBot = jogadaBot();
     });
@@ -257,16 +270,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   void verificaJogada() {
-    Color color = Colors.greenAccent;
+    Color color = Colors.brown;
     IconData icon = Icons.check_circle;
     String message = "";
-    if (imageBot == imagePlayer) {
+    if (playerJogada == zombieJogada) {
       message = "EMPATE!";
-      color = Colors.blueGrey;
+      color = Colors.brown;
       icon = Icons.error;
-    } else if ((imagePlayer == _papel && imageBot == _pedra) ||
-        (imagePlayer == _tesoura && imageBot == _papel) ||
-        (imagePlayer == _pedra && imageBot == _tesoura)) {
+    } else if ((playerJogada == 2 && zombieJogada == 1) ||
+        (playerJogada == 3 && zombieJogada == 2) ||
+        (playerJogada == 1 && zombieJogada == 3)) {
       message = "GANHOU!";
       setState(() {
         scorePlayer += 1;
@@ -274,7 +287,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       message = "PERDEU!";
       icon = Icons.cancel;
-      color = Colors.redAccent;
+      color = Colors.brown;
       setState(() {
         scoreBot += 1;
       });
@@ -286,16 +299,16 @@ class _HomePageState extends State<HomePage> {
     int index = random.nextInt(3);
 
     switch (index) {
-      case 0:
-        return _pedraZombie;
-        break;
       case 1:
+        zombieJogada = 2;
         return _papelZombie;
         break;
       case 2:
+        zombieJogada = 3;
         return _tesouraZombie;
         break;
       default:
+        zombieJogada = 1;
         return _pedraZombie;
     }
   }
