@@ -1,6 +1,8 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../ad_manager.dart';
 import 'GamePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,13 +15,41 @@ class _HomePageState extends State<HomePage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  BannerAd _bannerAd;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    _initAdMob().then((value) {
+      _bannerAd = BannerAd(
+        adUnitId: AdManager.bannerAdUnitId,
+        size: AdSize.banner,
+      );
+
+      // TODO: Load a Banner Ad
+      _loadBannerAd();
+    });
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: Image.asset("assets/images/background.jpg").image,
+                image: Image
+                    .asset("assets/images/background.jpg")
+                    .image,
                 fit: BoxFit.cover)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,5 +95,15 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+  void _loadBannerAd() {
+    _bannerAd
+      ..load()
+      ..show(anchorType: AnchorType.bottom);
+  }
+
+  Future<void> _initAdMob() {
+    // TODO: Initialize AdMob SDK
+    return FirebaseAdMob.instance.initialize(appId: AdManager.appId);
   }
 }

@@ -17,8 +17,8 @@ class GameController {
 
   Random random = new Random(10);
 
-  var scorePlayer = 0;
-  var scoreBot = 0;
+  double scorePlayer = 0.0;
+  double scoreBot = 0.0;
 
   FToast fToast;
 
@@ -71,18 +71,20 @@ class GameController {
     String message = "";
     if (playerJogada == zombieJogada) {
       message = "EMPATE!";
+      scorePlayer += 0.5;
+      scoreBot += 0.5;
       color = Colors.brown;
       icon = Icons.error;
     } else if ((playerJogada == 2 && zombieJogada == 1) ||
         (playerJogada == 3 && zombieJogada == 2) ||
         (playerJogada == 1 && zombieJogada == 3)) {
       message = "GANHOU!";
-        scorePlayer += 1;
+        scorePlayer += 1.0;
     } else {
       message = "PERDEU!";
       icon = Icons.cancel;
       color = Colors.brown;
-        scoreBot += 1;
+        scoreBot += 1.0;
     }
     showToast(message, icon, color);
   }

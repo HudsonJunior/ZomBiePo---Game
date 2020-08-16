@@ -41,12 +41,12 @@ class _GamePageState extends State<GamePage> {
 
       // TODO: Load a Banner Ad
       _loadBannerAd();
-    });
+     });
   }
 
   @override
   void dispose() {
-    _bannerAd?.dispose();
+     _bannerAd?.dispose();
 
     super.dispose();
   }
@@ -61,6 +61,7 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -93,7 +94,10 @@ class _GamePageState extends State<GamePage> {
                           borderRadius: BorderRadius.circular(15.0),
                           color: Colors.transparent,
                         ),
-                        child: Text(gameController.scorePlayer.toString(),
+                        child: Text(
+                            gameController.scorePlayer
+                                .toString()
+                                .replaceAll(".0", ""),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -128,7 +132,10 @@ class _GamePageState extends State<GamePage> {
                           borderRadius: BorderRadius.circular(15.0),
                           color: Colors.transparent,
                         ),
-                        child: Text(gameController.scoreBot.toString(),
+                        child: Text(
+                            gameController.scoreBot
+                                .toString()
+                                .replaceAll(".0", ""),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -142,43 +149,52 @@ class _GamePageState extends State<GamePage> {
             Expanded(
               child: Container(),
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 100),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: Image.asset(gameController.imagePlayer,
-                        width: 110, height: 110, alignment: Alignment.center),
-                    decoration: BoxDecoration(),
-                  ),
-                  Container(
-                    child: Image.asset('assets/images/vs.png',
-                        width: 110, height: 110, alignment: Alignment.center),
-                  ),
-                  Container(
-                      child: Image.asset(
-                    gameController.imageBot,
-                    width: 110,
-                    height: 110,
-                    alignment: Alignment.center,
-                  ))
-                ],
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 0),
+            OrientationBuilder(
+              builder: (context, orientation) {
+                return Container(
+                  padding: orientation == Orientation.landscape ? EdgeInsets.only(bottom: 0) :  EdgeInsets.only(bottom: 130),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _gestureImage(gameController.pedra),
-                      _gestureImage(gameController.papel),
-                      _gestureImage(gameController.tesoura)
+                      Container(
+                        child: Image.asset(gameController.imagePlayer,
+                            width: 100,
+                            height: 100,
+                            alignment: Alignment.center),
+                        decoration: BoxDecoration(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                        child: Container(
+                          child: Image.asset('assets/images/vs.png',
+                              width: 110,
+                              height: 110,
+                              alignment: Alignment.center),
+                        ),
+                      ),
+                      Container(
+                          child: Image.asset(
+                        gameController.imageBot,
+                        width: 100,
+                        height: 100,
+                        alignment: Alignment.center,
+                      ))
                     ],
                   ),
+                );
+              },
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 60),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _gestureImage(gameController.pedra),
+                    _gestureImage(gameController.papel),
+                    _gestureImage(gameController.tesoura)
+                  ],
                 ),
               ),
             )
@@ -200,14 +216,21 @@ class _GamePageState extends State<GamePage> {
   }
 
   Widget _gestureImage(String image) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          gameController.jogar(image);
-          gameController.verificaJogada();
-        });
-      },
-      child: Image.asset(image),
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0, right: 10),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            gameController.jogar(image);
+            gameController.verificaJogada();
+          });
+        },
+        child: Image.asset(
+          image,
+          width: 100,
+          height: 100,
+        ),
+      ),
     );
   }
 }
