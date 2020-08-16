@@ -31,6 +31,8 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
+
+    gameController.namePlayer = widget.namePlayer;
     gameController.fToast = FToast(context);
 
     _initAdMob().then((value) {
@@ -61,6 +63,7 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: gameController.scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(

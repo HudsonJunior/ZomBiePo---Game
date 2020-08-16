@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class GameController {
+
+  String namePlayer;
+
   final pedra = "assets/images/pedra.png";
   final papel = 'assets/images/papel.png';
   final tesoura = 'assets/images/tesoura.png';
@@ -25,6 +28,10 @@ class GameController {
   var imagePlayer = 'assets/images/imagePlayer.png';
   var imageBot = 'assets/images/imageZombie.png';
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  GameController();
+
   jogar(String jogada) {
     if (jogada == papel) {
       playerJogada = 2;
@@ -36,7 +43,60 @@ class GameController {
 
     imagePlayer = jogada;
     imageBot = jogadaBot();
+    showToastPlayer();
+    showToastZombie();
   }
+
+  showToastPlayer(){
+    String textTitulo = "";
+    switch(scorePlayer.toString()){
+      case "10.0":
+        textTitulo = '$namePlayer JA DERROTOU 10 ZUMBIS!';
+        break;
+      case "20.0":
+        textTitulo = '20 ZUMBIS DERROTADOS É PRA POUCOS!';
+        break;
+      case "30.0":
+        textTitulo = '$namePlayer É UMA MÁQUINA IMPARÁVEL. JA FORAM 30 ZUMBIS!';
+        break;
+      case "40.0":
+        textTitulo = '40 ZUMBIS É INSANO! $namePlayer É O MAIOR DESTRUIDOR DE ZUMBIS JÁ VISTO!';
+        break;
+      case "50.0":
+        textTitulo = '50 ZUMBIS É O ESTÁGIO FINAL, PARABÉNS $namePlayer VOCÊ É O REI!';
+        break;
+    }
+    if(!textTitulo.isEmpty){
+      showToast(textTitulo, Icons.check, Colors.green);
+    }
+  }
+
+  showToastZombie() {
+    String textTitulo = "";
+    switch (scoreBot.toString()) {
+      case "10.0":
+        textTitulo = '$namePlayer JA DERROTOU 10 ZUMBIS!';
+        break;
+      case "20.0":
+        textTitulo = '20 ZUMBIS DERROTADOS É PRA POUCOS!';
+        break;
+      case "30.0":
+        textTitulo = '$namePlayer É UMA MÁQUINA IMPARÁVEL. JA FORAM 30 ZUMBIS!';
+        break;
+      case "40.0":
+        textTitulo =
+        '40 ZUMBIS É INSANO! $namePlayer É O MAIOR DESTRUIDOR DE ZUMBIS JÁ VISTO!';
+        break;
+      case "50.0":
+        textTitulo =
+        '50 ZUMBIS É O ESTÁGIO FINAL, PARABÉNS $namePlayer VOCÊ É O REI!';
+        break;
+    }
+    if (!textTitulo.isEmpty) {
+      showToast(textTitulo, Icons.check, Colors.green);
+    }
+  }
+
 
   showToast(String message, IconData icon, Color color) {
     fToast.removeQueuedCustomToasts();
